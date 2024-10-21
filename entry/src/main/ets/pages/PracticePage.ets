@@ -1,21 +1,28 @@
+import { AnswerStatus } from '../enums/AnswerStatus'
 import { PracticeStatus } from '../enums/PracticeStatus'
+import { getRandomQuestions, Question } from '../model/Questions'
+import  promptAction  from '@ohos.promptAction'
 
 @Entry
 @Component
 struct PracticePage {
   @State practiceStatus: PracticeStatus = PracticeStatus.Stopped
+  @State questions: Question[] = getRandomQuestions(3)
+  @State currentIndex: number = 0;
+  @State clickable:boolean = true;
+  @State answerStatus: AnswerStatus = AnswerStatus.Answering
 
-  startPractice(){
+  startPractice() {
     this.practiceStatus = PracticeStatus.Running
     //start timer
   }
 
-  pausePractice(){
+  pausePractice() {
     this.practiceStatus = PracticeStatus.Paused
     //stop timer
   }
 
-  stopPractice(){
+  stopPractice() {
     this.practiceStatus = PracticeStatus.Stopped
     //pause timer
     //pop window
@@ -34,7 +41,7 @@ struct PracticePage {
 
       //Problem
       Column() {
-        Text('1+1=?')
+        Text(this.questions[this.currentIndex].problem)
           .wordStyle()
         Text('"Unbelievable or not, it happened, unbelievable or not, it happened"')
           .sampleSentenceStyle()
@@ -42,12 +49,39 @@ struct PracticePage {
 
       //Options
       Column({ space: 10 }) {
-        ForEach([1, 2, 3, 4], (options: number) => {
-          Button(options.toString())
+        ForEach(this.questions[this.currentIndex].options, (option: string) => {
+          Button(option)
             .optionButtonStyle(
               Color.White,
               Color.Green
             )
+            .onClick(()=>{
+              if(this.practiceStatus !== PracticeStatus.Running){
+                  promptAction.showToast({
+                    message:'Please click start to practice'
+                  })
+                return
+              }
+              // to do: wrong or correct
+
+              // to do: update summary information
+
+              if(this.currentIndex < this.questions.length-1)
+              {
+                this.answerStatus = AnswerStatus.Answered
+                setTimeout(()=>{
+                  this.clickable = false;
+                  this.currentIndex++;
+                  this.answerStatus = AnswerStatus.Answering
+                },500)//0.5s
+              }
+              else{
+                //end the practice
+                this.stopPractice()
+              }
+            })
+            //Options buttion is active when the user is answering
+            .enabled(this.answerStatus === AnswerStatus.Answering)
         })
       }
 
@@ -60,7 +94,7 @@ struct PracticePage {
             this.practiceStatus === PracticeStatus.Stopped ? Color.Gray : Color.Black,
           )
           .enabled(this.practiceStatus !== PracticeStatus.Stopped)
-          .onClick(()=>{
+          .onClick(() => {
             this.stopPractice()
           })
         Button(this.practiceStatus === PracticeStatus.Running ? 'Pause' : 'Start')
@@ -69,12 +103,12 @@ struct PracticePage {
             Color.White,
             this.practiceStatus === PracticeStatus.Running ? Color.Gray : Color.Black,
           )
-          .onClick(()=>{
+          .onClick(() => {
             //to do: start practice
-            if(this.practiceStatus === PracticeStatus.Stopped){
+            if (this.practiceStatus === PracticeStatus.Stopped) {
               this.startPractice()
             }
-            else{
+            else {
               this.pausePractice()
             }
           })
