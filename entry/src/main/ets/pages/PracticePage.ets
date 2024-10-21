@@ -1,16 +1,17 @@
 import { AnswerStatus } from '../enums/AnswerStatus'
 import { PracticeStatus } from '../enums/PracticeStatus'
 import { getRandomQuestions, Question } from '../model/Questions'
-import  promptAction  from '@ohos.promptAction'
+import promptAction from '@ohos.promptAction'
+import { OptionStatus } from '../enums/OptionStatus'
 
 @Entry
 @Component
 struct PracticePage {
   @State practiceStatus: PracticeStatus = PracticeStatus.Stopped
   @State questions: Question[] = getRandomQuestions(3)
-  @State currentIndex: number = 0;
-  @State clickable:boolean = true;
+  @State currentIndex: number = 0
   @State answerStatus: AnswerStatus = AnswerStatus.Answering
+  @State selectedOption: string = ''
 
   startPractice() {
     this.practiceStatus = PracticeStatus.Running
@@ -50,39 +51,42 @@ struct PracticePage {
       //Options
       Column({ space: 10 }) {
         ForEach(this.questions[this.currentIndex].options, (option: string) => {
-          Button(option)
-            .optionButtonStyle(
-              Color.White,
-              Color.Green
-            )
-            .onClick(()=>{
-              if(this.practiceStatus !== PracticeStatus.Running){
-                  promptAction.showToast({
-                    message:'Please click start to practice'
-                  })
+          OptionButton({
+            option: option,
+            answerStatus: this.answerStatus,
+            answer: this.questions[this.currentIndex].answer,
+            selectedOption: this.selectedOption,
+          })
+            .onClick(() => {
+              if (this.practiceStatus !== PracticeStatus.Running) {
+                promptAction.showToast({
+                  message: 'Please click start to practice'
+                })
                 return
               }
               // to do: wrong or correct
-
+              this.selectedOption = option
               // to do: update summary information
 
-              if(this.currentIndex < this.questions.length-1)
-              {
+              if (this.currentIndex < this.questions.length - 1) {
                 this.answerStatus = AnswerStatus.Answered
-                setTimeout(()=>{
-                  this.clickable = false;
+                setTimeout(() => {
                   this.currentIndex++;
                   this.answerStatus = AnswerStatus.Answering
-                },500)//0.5s
+                }, 500) //0.5s
               }
-              else{
+              else {
                 //end the practice
                 this.stopPractice()
               }
-            })
-            //Options buttion is active when the user is answering
+            })//Options buttion is active when the user is answering
             .enabled(this.answerStatus === AnswerStatus.Answering)
-        })
+        },
+          (option: string) => {
+            //Each problem changing we need to ensure not overuse previous button component
+            return this.questions[this.currentIndex].problem + '-' + option
+          }
+        )
       }
 
       //Control buttons
@@ -118,6 +122,61 @@ struct PracticePage {
   }
 }
 
+@Component
+struct OptionButton {
+  option: string;
+  answer: string;
+  @State optionStatus: OptionStatus = OptionStatus.Default
+  @Prop selectedOption: string = ''
+  @Prop @Watch('onAnswerStatusChange') answerStatus: AnswerStatus
+
+  onAnswerStatusChange() {
+    if (this.option === this.answer) {
+      this.optionStatus = OptionStatus.Correct
+    } else {
+      if (this.option === this.selectedOption) {
+        this.optionStatus = OptionStatus.Wrong
+      } else {
+        this.optionStatus = OptionStatus.Default
+      }
+    }
+  }
+
+  getBgColor() {
+    switch (this.optionStatus) {
+      case OptionStatus.Correct:
+        return Color.Green
+      case OptionStatus.Wrong:
+        return Color.Red
+      default:
+        return Color.White
+    }
+  }
+
+  build() {
+    Stack() {
+      Button(this.option)
+        .optionButtonStyle(
+          this.getBgColor(),
+          this.optionStatus === OptionStatus.Default ? Color.Black : Color.White
+        )
+      if (this.optionStatus === OptionStatus.Correct) {
+        Image($r('app.media.correct'))
+          .width(22)
+          .height(22)
+          .offset({ x: 10 })
+      }
+      else if (this.optionStatus === OptionStatus.Wrong) {
+        Image($r('app.media.wrong'))
+          .width(22)
+          .height(22)
+          .offset({ x: 10 })
+          .backgroundColor(Color.Black)
+      }
+    }
+    .alignContent(Alignment.Start)
+  }
+}
 
 @Extend(Column)
 function practiceBgStyle() {
