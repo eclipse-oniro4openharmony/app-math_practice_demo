@@ -3,40 +3,127 @@ import { PracticeStatus } from '../enums/PracticeStatus'
 import { getRandomQuestions, Question } from '../model/Questions'
 import promptAction from '@ohos.promptAction'
 import { OptionStatus } from '../enums/OptionStatus'
+import { convertMillisecondsToTime } from '../utils/DateUtil'
 
 @Entry
 @Component
 struct PracticePage {
   @State practiceStatus: PracticeStatus = PracticeStatus.Stopped
-  @State questions: Question[] = getRandomQuestions(3)
+  @State totalCount: number = 3
+  @State questions: Question[] = getRandomQuestions(this.totalCount)
   @State currentIndex: number = 0
   @State answerStatus: AnswerStatus = AnswerStatus.Answering
   @State selectedOption: string = ''
+  @State answeredCount: number = 0
+  @State correctCount: number = 0
+  timerController: TextTimerController = new TextTimerController()
+  timeUsed: number = 0
+  dialogController: CustomDialogController = new CustomDialogController({
+    builder: ResultDialog({
+      answeredCount: this.answeredCount,
+      correctCount: this.correctCount,
+      timeUsed: this.timeUsed,
+      resetPractice:()=>{
+        //reset the problem sources
+        this.questions = getRandomQuestions(this.totalCount)
+        this.currentIndex = 0
+        this.answeredCount = 0
+        this.timeUsed = 0
+        this.correctCount = 0
+        this.timerController.reset()
+        this.answerStatus = AnswerStatus.Answering
+      },
+      startPractice:()=>{
+        this.startPractice()
+      }
+    }),
+    customStyle: true,
+    autoCancel: false
+  })
 
   startPractice() {
     this.practiceStatus = PracticeStatus.Running
-    //start timer
+    this.timerController.start()
   }
 
   pausePractice() {
     this.practiceStatus = PracticeStatus.Paused
-    //stop timer
+    this.timerController.pause()
   }
 
   stopPractice() {
     this.practiceStatus = PracticeStatus.Stopped
-    //pause timer
-    //pop window
+    this.timerController.pause()
+    this.dialogController.open()
   }
 
   build() {
     Column() {
       //Statistic Summary
       Column() {
-        Text('Info')
-        Text('Info')
-        Text('Info')
-        Text('Info')
+        SummaryItem({
+          icon: $r('app.media.accuracy'),
+          name: 'Accuracy',
+          fontColor: Color.Black,
+        }) {
+          Text(this.answeredCount === 0 ?
+            '0%' : (this.correctCount / this.answeredCount * 100).toFixed() + '%')
+            .width(100)
+            .textAlign(TextAlign.Center)
+        }
+
+        SummaryItem({
+          icon: $r('app.media.speed'),
+          name: 'Progress',
+          fontColor: Color.Black,
+        }) {
+          Progress({
+            value: this.answeredCount,
+            total: this.totalCount
+          })
+            .width(100)
+        }
+
+        SummaryItem({
+          icon: $r('app.media.number'),
+          name: 'Number',
+          fontColor: Color.Black,
+        }) {
+          Button(this.totalCount.toString())
+            .width(100)
+            .height(25)
+            .backgroundColor('#ff591791')
+            .fontColor(Color.White)
+            .enabled(this.practiceStatus === PracticeStatus.Stopped)
+            .onClick(() => {
+              TextPickerDialog.show({
+                range: ['1', '2', '3'],
+                value: this.totalCount.toString(),
+                onAccept: (result) => {
+                  this.totalCount = parseInt(result.value.toString())
+                  this.questions = getRandomQuestions(this.totalCount)
+                }
+              })
+            })
+        }
+
+        SummaryItem({
+          icon: $r('app.media.timer'),
+          name: 'Time',
+          fontColor: Color.Black,
+        }) {
+          Row() {
+            TextTimer({
+              controller: this.timerController
+            })
+              .onTimer((utc, elapsedTime) => {
+                this.timeUsed = elapsedTime
+              })
+          }
+          .width('100%')
+          .justifyContent(FlexAlign.Center)
+        }
+
       }
       .summaryStyle()
 
@@ -44,8 +131,6 @@ struct PracticePage {
       Column() {
         Text(this.questions[this.currentIndex].problem)
           .wordStyle()
-        Text('"Unbelievable or not, it happened, unbelievable or not, it happened"')
-          .sampleSentenceStyle()
       }
 
       //Options
@@ -60,13 +145,18 @@ struct PracticePage {
             .onClick(() => {
               if (this.practiceStatus !== PracticeStatus.Running) {
                 promptAction.showToast({
-                  message: 'Please click start to practice'
+                  message: 'Please click start to practice',
+                  bottom:200
                 })
                 return
               }
               // to do: wrong or correct
               this.selectedOption = option
               // to do: update summary information
+              this.answeredCount++
+              if (option === this.questions[this.currentIndex].answer) {
+                this.correctCount++
+              }
 
               if (this.currentIndex < this.questions.length - 1) {
                 this.answerStatus = AnswerStatus.Answered
@@ -112,8 +202,12 @@ struct PracticePage {
             if (this.practiceStatus === PracticeStatus.Stopped) {
               this.startPractice()
             }
-            else {
+            else if(this.practiceStatus === PracticeStatus.Running){
               this.pausePractice()
+            }
+            else{
+              //continue paused practice
+              this.startPractice()
             }
           })
       }
@@ -122,10 +216,113 @@ struct PracticePage {
   }
 }
 
+@CustomDialog
+struct ResultDialog {
+  answeredCount!: number;
+  correctCount!: number;
+  timeUsed!: number;
+  resetPractice!:()=>void;
+  startPractice!:()=>void;
+  controller: CustomDialogController = new CustomDialogController({
+    builder: ResultDialog()
+  })
+
+  build() {
+    Column() {
+      Image($r("app.media.ic_close"))
+        .width(25)
+        .height(25)
+        .alignSelf(ItemAlign.End)
+        .onClick(()=>{
+          this.controller.close()
+          this.resetPractice()
+        })
+      Column() {
+        Image($r('app.media.finish'))
+          .width('100%')
+          .borderRadius(10)
+        SummaryItem({
+          icon: $r('app.media.timer'),
+          name: 'Time',
+          fontColor: Color.Black
+        }) {
+          Text(convertMillisecondsToTime(this.timeUsed))
+        }
+
+        SummaryItem({
+          icon: $r('app.media.accuracy'),
+          name: 'Accuracy',
+          fontColor: Color.Black
+        }) {
+          Text((this.answeredCount === 0 ? 0 : this.correctCount / this.answeredCount * 100).toFixed() + '%')
+        }
+
+        SummaryItem({
+          icon: $r('app.media.number'),
+          name: 'Number',
+          fontColor: Color.Black
+        }) {
+          Text(this.answeredCount.toString())
+        }
+        Divider()
+          .color(Color.Black)
+        Row(){
+          Button('More Practice')
+            .onClick(()=>{
+              this.controller.close()
+              this.resetPractice()
+              //start new practice
+              this.startPractice()
+            })
+            .controlButtonStyle(
+              Color.Transparent,
+              Color.Black,
+              Color.Black,
+            )
+        }
+        .justifyContent(FlexAlign.Center)
+        .margin(5)
+      }
+      .backgroundColor(Color.White)
+      .width('100%')
+      .padding(20)
+      .borderRadius(10)
+
+    }
+    .backgroundColor(Color.Transparent)
+    .width('80%')
+  }
+}
+
+@Component
+struct SummaryItem {
+  icon!: Resource;
+  name!: string;
+  fontColor!: Color;
+  @BuilderParam summaryComp: () => void;
+
+  build() {
+    Row({ space: 10 }) {
+      Image(this.icon)
+        .height(30)
+        .width(30)
+      Text(this.name)
+        .fontWeight(FontWeight.Medium)
+        .fontSize(14)
+        .fontColor(this.fontColor)
+      Blank()
+      this.summaryComp()
+    }
+    .width('100%')
+    .height(30)
+  }
+}
+
+
 @Component
 struct OptionButton {
-  option: string;
-  answer: string;
+  option!: string;
+  answer!: string;
   @State optionStatus: OptionStatus = OptionStatus.Default
   @Prop selectedOption: string = ''
   @Prop @Watch('onAnswerStatusChange') answerStatus: AnswerStatus
