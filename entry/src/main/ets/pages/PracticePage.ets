@@ -5,9 +5,9 @@ import promptAction from '@ohos.promptAction'
 import { OptionStatus } from '../enums/OptionStatus'
 import { convertMillisecondsToTime } from '../utils/DateUtil'
 
-@Entry
+
 @Component
-struct PracticePage {
+export struct PracticePage {
   @State practiceStatus: PracticeStatus = PracticeStatus.Stopped
   @State totalCount: number = 3
   @State questions: Question[] = getRandomQuestions(this.totalCount)
@@ -146,7 +146,7 @@ struct PracticePage {
               if (this.practiceStatus !== PracticeStatus.Running) {
                 promptAction.showToast({
                   message: 'Please click start to practice',
-                  bottom:200
+                  bottom:10
                 })
                 return
               }
