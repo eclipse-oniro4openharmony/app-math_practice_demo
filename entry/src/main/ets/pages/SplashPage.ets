@@ -74,3 +74,4 @@ function footerStyle() {
   .fontWeight(FontWeight.Bold)
   .margin({ bottom: 30 })
 }
+
