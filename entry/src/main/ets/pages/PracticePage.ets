@@ -4,7 +4,7 @@ import { getRandomQuestions, Question } from '../model/Questions'
 import promptAction from '@ohos.promptAction'
 import { OptionStatus } from '../enums/OptionStatus'
 import { convertMillisecondsToTime } from '../utils/DateUtil'
-
+import router from '@ohos.router';
 
 @Component
 export struct PracticePage {
@@ -23,7 +23,7 @@ export struct PracticePage {
       answeredCount: this.answeredCount,
       correctCount: this.correctCount,
       timeUsed: this.timeUsed,
-      resetPractice:()=>{
+      resetPractice: () => {
         //reset the problem sources
         this.questions = getRandomQuestions(this.totalCount)
         this.currentIndex = 0
@@ -33,7 +33,7 @@ export struct PracticePage {
         this.timerController.reset()
         this.answerStatus = AnswerStatus.Answering
       },
-      startPractice:()=>{
+      startPractice: () => {
         this.startPractice()
       }
     }),
@@ -146,7 +146,7 @@ export struct PracticePage {
               if (this.practiceStatus !== PracticeStatus.Running) {
                 promptAction.showToast({
                   message: 'Please click start to practice',
-                  bottom:10
+                  bottom: 10
                 })
                 return
               }
@@ -202,10 +202,10 @@ export struct PracticePage {
             if (this.practiceStatus === PracticeStatus.Stopped) {
               this.startPractice()
             }
-            else if(this.practiceStatus === PracticeStatus.Running){
+            else if (this.practiceStatus === PracticeStatus.Running) {
               this.pausePractice()
             }
-            else{
+            else {
               //continue paused practice
               this.startPractice()
             }
@@ -221,8 +221,8 @@ struct ResultDialog {
   answeredCount!: number;
   correctCount!: number;
   timeUsed!: number;
-  resetPractice!:()=>void;
-  startPractice!:()=>void;
+  resetPractice!: () => void;
+  startPractice!: () => void;
   controller: CustomDialogController = new CustomDialogController({
     builder: ResultDialog()
   })
@@ -233,7 +233,7 @@ struct ResultDialog {
         .width(25)
         .height(25)
         .alignSelf(ItemAlign.End)
-        .onClick(()=>{
+        .onClick(() => {
           this.controller.close()
           this.resetPractice()
         })
@@ -264,11 +264,13 @@ struct ResultDialog {
         }) {
           Text(this.answeredCount.toString())
         }
+
         Divider()
           .color(Color.Black)
-        Row(){
+          .strokeWidth(1)
+        Row({ space: 15 }) {
           Button('More Practice')
-            .onClick(()=>{
+            .onClick(() => {
               this.controller.close()
               this.resetPractice()
               //start new practice
@@ -279,13 +281,28 @@ struct ResultDialog {
               Color.Black,
               Color.Black,
             )
+            .width('50%')
+            .fontSize(12)
+          Button('Login Punch')
+            .onClick(() => {
+              this.controller.close()
+              this.resetPractice()
+              router.pushUrl({ url: "pages/LoginPage" })
+            })
+            .controlButtonStyle(
+              Color.Black,
+              Color.White,
+              Color.Black,
+            )
+            .width('50%')
+            .fontSize(12)
         }
         .justifyContent(FlexAlign.Center)
-        .margin(5)
+        .margin(20)
       }
       .backgroundColor(Color.White)
       .width('100%')
-      .padding(20)
+      .padding(10)
       .borderRadius(10)
 
     }
