@@ -312,7 +312,7 @@ struct ResultDialog {
 }
 
 @Component
-struct SummaryItem {
+export struct SummaryItem {
   icon!: Resource;
   name!: string;
   fontColor!: Color;

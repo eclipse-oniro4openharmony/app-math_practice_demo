@@ -8,7 +8,7 @@ export const questionData: Question[] = [
   {
     problem: "1+1=?",
     options: ["1", "2", "3", "4"],
-    answer: "1",
+    answer: "2",
   },
   {
     problem: "1+2=?",
