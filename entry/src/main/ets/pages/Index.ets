@@ -1,4 +1,5 @@
 import { PracticePage } from './PracticePage';
+import { PunchPage } from './PunchPage';
 
 @Entry
 @Component
@@ -9,15 +10,15 @@ struct Index {
     Tabs() {
       TabContent() {
         PracticePage()
-      }.tabBar(this.barBuilder(0,'Practice',$r('app.media.practice'),$r('app.media.practice_selected')))
+      }.tabBar(this.barBuilder(0, 'Practice', $r('app.media.practice'), $r('app.media.practice_selected')))
 
       TabContent() {
-        Text('Moments')
-      }.tabBar(this.barBuilder(1,'Moments',$r('app.media.moment'),$r('app.media.moment_selected')))
+        PunchPage()
+      }.tabBar(this.barBuilder(1, 'Moments', $r('app.media.moment'), $r('app.media.moment_selected')))
 
       TabContent() {
         Text('My')
-      }.tabBar(this.barBuilder(2,'My',$r('app.media.my'),$r('app.media.my_selected')))
+      }.tabBar(this.barBuilder(2, 'My', $r('app.media.my'), $r('app.media.my_selected')))
     }
     .barPosition(BarPosition.End)
     .onChange((index) => {
