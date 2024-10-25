@@ -1,5 +1,6 @@
 import { PracticePage } from './PracticePage';
 import { PunchPage } from './PunchPage';
+import { MyPage } from './MyPage'
 
 @Entry
 @Component
@@ -17,7 +18,7 @@ struct Index {
       }.tabBar(this.barBuilder(1, 'Moments', $r('app.media.moment'), $r('app.media.moment_selected')))
 
       TabContent() {
-        Text('My')
+        MyPage()
       }.tabBar(this.barBuilder(2, 'My', $r('app.media.my'), $r('app.media.my_selected')))
     }
     .barPosition(BarPosition.End)
