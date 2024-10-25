@@ -7,7 +7,12 @@ import { convertMillisecondsToTime } from '../utils/DateUtil';
 @Component
 export struct PunchPage {
   @State postInfoList: PostInfo[] = postInfoData;
+  @State isLoading: boolean = false
   scroller: Scroller = new Scroller()
+
+  aboutToAppear(): void {
+    this.isLoading = true
+  }
 
   build() {
     Column() {
@@ -20,11 +25,33 @@ export struct PunchPage {
       Column() {
         //Tested already
         //this.unloginBuilder()
+        // if (this.isLoading) {
+        //   this.loadBuilder()
+        // }
+        // else {
+        //   this.listBuilder()
+        // }
         this.listBuilder()
 
       }
     }
     .bgStyle()
+  }
+
+  @Builder
+  loadBuilder() {
+    Column() {
+      Image($r('app.media.loading'))
+        .width(30)
+        .height(30)
+      Text('Loading...')
+        .fontSize(16)
+        .fontWeight(FontWeight.Medium)
+        .fontColor(Color.Gray)
+    }
+    .width('100%')
+    .layoutWeight(1)
+    .justifyContent(FlexAlign.Center)
   }
 
   @Builder
@@ -51,7 +78,7 @@ export struct PunchPage {
   @Builder
   listBuilder() {
     Stack() {
-      List() {
+      List({ scroller: this.scroller }) {
         ForEach(this.postInfoList, (post: PostInfo) => {
           ListItem() {
             PostItem({ post })
@@ -73,7 +100,6 @@ export struct PunchPage {
         .opacity(0.5)
         .backgroundColor(Color.Black)
         .onClick(() => {
-          // todo: back to top
           this.scroller.scrollEdge(Edge.Top)
         })
 
@@ -90,6 +116,10 @@ export struct PunchPage {
         .backgroundColor(Color.Black)
         .onClick(() => {
           // todo: refresh
+          if (this.isLoading === true) {
+            this.postInfoList = [];
+            this.postInfoList = postInfoData;
+          }
         })
       }
       .offset({
@@ -128,7 +158,7 @@ function dividerStyle() {
 
 @Component
 struct PostItem {
-  post: PostInfo;
+  post!: PostInfo;
 
   build() {
     Column({ space: 10 }) {
@@ -214,5 +244,11 @@ function cardInfoStyle() {
   .borderRadius(20)
   .borderColor('#590c0303')
   .borderWidth(2)
-  .margin(10)
+  .margin({ left: 10, bottom: 5 })
+  .shadow({
+    radius: 4,
+    color: `rgba(0,0,0,0.3)`,
+    offsetY: 10,
+    offsetX: -10,
+  })
 }
