@@ -73,6 +73,10 @@
       "value": "Confirm"
     },
     {
+      "name": "Punch",
+      "value": "Punch"
+    },
+    {
       "name": "Login_punch",
       "value": "Login Punch"
     },
@@ -135,6 +139,10 @@
     {
       "name": "More_practice",
       "value": "More Practice"
+    },
+    {
+      "name": "Punch_success",
+      "value": "Punch successful~ Keep going!"
     }
   ]
 }
