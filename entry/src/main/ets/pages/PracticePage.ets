@@ -42,6 +42,7 @@ export struct PracticePage {
     }),
     customStyle: true,
     autoCancel: false,
+    alignment: DialogAlignment.Center
   })
   problemNumDialogController: CustomDialogController = new CustomDialogController({
     builder: ProblemNumberDialog({
@@ -53,6 +54,7 @@ export struct PracticePage {
     }),
     customStyle: true,
     autoCancel: false,
+    alignment: DialogAlignment.Center
   })
 
   startPractice() {
@@ -293,6 +295,7 @@ struct ResultDialog {
   @StorageLink("record_id") record_id: number = 0;
   controller: CustomDialogController = new CustomDialogController({
     builder: ResultDialog()
+
   })
 
   build() {
@@ -405,9 +408,9 @@ struct ResultDialog {
       .width('100%')
       .padding(10)
       .borderRadius(10)
-      .margin({
-        bottom: 85
-      })
+      // .margin({
+      //   bottom: 85
+      // })
 
     }
     .backgroundColor(Color.Transparent)
