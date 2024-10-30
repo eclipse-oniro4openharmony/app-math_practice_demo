@@ -27,25 +27,25 @@ export struct MyPage {
       Column() {
         OptionBuilder(
           $r('app.media.history'),
-          'Punch Records',
+          $r('app.string.Punch_record'),
           $r('app.media.enter'),
         )
 
         OptionBuilder(
           $r('app.media.update'),
-          'Check Updates',
+          $r('app.string.Check_updates'),
           $r('app.media.enter')
         )
 
         OptionBuilder(
           $r('app.media.about'),
-          'About',
+          $r('app.string.About'),
           $r('app.media.enter')
         )
       }
 
       Blank()
-      Button('Login')
+      Button($r('app.string.Login'))
         .margin({ bottom: 30 })
         .width('40%')
         .backgroundColor(Color.Gray)
@@ -67,7 +67,7 @@ function userBgStyle() {
 }
 
 @Builder
-function OptionBuilder(imageUrl_1: string | Resource, text: string, imageUrl_2: string | Resource) {
+function OptionBuilder(imageUrl_1: string | Resource, text: string|Resource, imageUrl_2: string | Resource) {
   Row({ space: 20 }) {
     Image(imageUrl_1)
       .width(20)

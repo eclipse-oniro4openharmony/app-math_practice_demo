@@ -50,7 +50,7 @@ export interface Question {
 // }
 
 function generateRandomQuestion(): Question {
-  const num1 = Math.floor(Math.random() * 10); // 随机生成 0 到 9 的数字
+  const num1 = Math.floor(Math.random() * 10);
   const num2 = Math.floor(Math.random() * 10);
   const operators: string[] = ['+', '-', 'x', '÷']
   // get random index of operator array
@@ -80,7 +80,7 @@ function generateRandomQuestion(): Question {
 
   // Generate other random options
   while (options.size < 4) {
-    const randomOption = Math.floor(Math.random() * 100); // 生成 0 到 100 的随机数字
+    const randomOption = Math.floor(Math.random() * 100);
     options.add(randomOption);
   }
 

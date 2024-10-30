@@ -28,7 +28,7 @@ struct SplashPage {
             opacity: 0,
             translate: { x: -150 }
           })
-        Text('Practice Math')
+        Text($r('app.string.Practice_math'))
           .titleStyle()
           .transition({
             type: TransitionType.Insert,
@@ -37,7 +37,7 @@ struct SplashPage {
           })
       }
       Blank()
-      Text('OpenHarmony project demo')
+      Text($r('app.string.Developer'))
         .footerStyle()
     }
     .bgStyle()

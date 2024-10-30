@@ -11,15 +11,15 @@ struct Index {
     Tabs() {
       TabContent() {
         PracticePage()
-      }.tabBar(this.barBuilder(0, 'Practice', $r('app.media.practice'), $r('app.media.practice_selected')))
+      }.tabBar(this.barBuilder(0, $r('app.string.Practice'), $r('app.media.practice'), $r('app.media.practice_selected')))
 
       TabContent() {
         PunchPage()
-      }.tabBar(this.barBuilder(1, 'Moments', $r('app.media.moment'), $r('app.media.moment_selected')))
+      }.tabBar(this.barBuilder(1, $r('app.string.Moments'), $r('app.media.moment'), $r('app.media.moment_selected')))
 
       TabContent() {
         MyPage()
-      }.tabBar(this.barBuilder(2, 'My', $r('app.media.my'), $r('app.media.my_selected')))
+      }.tabBar(this.barBuilder(2, $r('app.string.My'), $r('app.media.my'), $r('app.media.my_selected')))
     }
     .barPosition(BarPosition.End)
     .onChange((index) => {
@@ -28,7 +28,7 @@ struct Index {
   }
 
   @Builder
-  barBuilder(index: number, title: string, icon: Resource, iconSelected: Resource) {
+  barBuilder(index: number, title: string|Resource, icon: Resource, iconSelected: Resource) {
     Column() {
       Image(this.currentTabIndex === index ? iconSelected : icon)
         .width(25)

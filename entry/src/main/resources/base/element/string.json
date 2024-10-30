@@ -11,6 +11,126 @@
     {
       "name": "EntryAbility_label",
       "value": "label"
+    },
+    {
+      "name": "Accuracy",
+      "value": "Accuracy"
+    },
+    {
+      "name": "Progress",
+      "value": "Progress"
+    },
+    {
+      "name": "Number",
+      "value": "Number"
+    },
+    {
+      "name": "Time",
+      "value": "Time"
+    },
+    {
+      "name": "Click_start",
+      "value": "Please click start to practice"
+    },
+    {
+      "name": "Start",
+      "value": "Start"
+    },
+    {
+      "name": "Pause",
+      "value": "Pause"
+    },
+    {
+      "name": "End",
+      "value": "End"
+    },
+    {
+      "name": "Practice",
+      "value": "Practice"
+    },
+    {
+      "name": "Moments",
+      "value": "Moments"
+    },
+    {
+      "name": "My",
+      "value": "My"
+    },
+    {
+      "name": "Punch_record",
+      "value": "Punch Record"
+    },
+    {
+      "name": "Enter_problem_number",
+      "value": "Enter the problem number"
+    },
+    {
+      "name": "Cancel",
+      "value": "Cancel"
+    },
+    {
+      "name": "Confirm",
+      "value": "Confirm"
+    },
+    {
+      "name": "Login_punch",
+      "value": "Login Punch"
+    },
+    {
+      "name": "Finish",
+      "value": "Finish"
+    },
+    {
+      "name": "Punch_community",
+      "value": "Punch Community"
+    },
+    {
+      "name": "Loading",
+      "value": "Loading..."
+    },
+    {
+      "name": "Login_check_data",
+      "value": "Login Check Data"
+    },
+    {
+      "name": "Go_login",
+      "value": "Go Login"
+    },
+    {
+      "name": "Welcome_login",
+      "value": "Welcome Login"
+    },
+    {
+      "name": "Phone_number",
+      "value": "Phone Number"
+    },
+    {
+      "name": "Code",
+      "value": "Code"
+    },
+    {
+      "name": "Get_code",
+      "value": "Get_code"
+    },
+    {
+      "name": "Login",
+      "value": "Login"
+    },
+    {
+      "name": "Practice_math",
+      "value": "Practice Math"
+    },
+    {
+      "name": "Developer",
+      "value": "Development by Chen"
+    },
+    {
+      "name": "Check_updates",
+      "value": "Check Updates"
+    },
+    {
+      "name": "About",
+      "value": "About"
     }
   ]
 }

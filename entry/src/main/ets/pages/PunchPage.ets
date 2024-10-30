@@ -16,7 +16,7 @@ export struct PunchPage {
 
   build() {
     Column() {
-      Text('Math Punch Community')
+      Text($r('app.string.Punch_community'))
         .titleStyle()
       Divider()
         .dividerStyle()
@@ -44,7 +44,7 @@ export struct PunchPage {
       Image($r('app.media.loading'))
         .width(30)
         .height(30)
-      Text('Loading...')
+      Text($r('app.string.Loading'))
         .fontSize(16)
         .fontWeight(FontWeight.Medium)
         .fontColor(Color.Gray)
@@ -58,11 +58,11 @@ export struct PunchPage {
   unloginBuilder() {
     Column({ space: 30 }) {
 
-      Text('No login no data')
+      Text($r('app.string.Login_check_data'))
         .fontSize(15)
         .fontColor('#561a1111')
 
-      Button('Go login')
+      Button($r('app.string.Go_login'))
         .height(34)
         .width(100)
         .backgroundColor('#ff0aa79a')
@@ -185,7 +185,7 @@ struct PostItem {
         Column() {
           SummaryItem({
             icon: $r('app.media.timer'),
-            name: 'Time cost',
+            name: $r('app.string.Time'),
             fontColor: Color.Black,
           }) {
             Text(convertMillisecondsToTime(this.post.timeUsed))
@@ -193,7 +193,7 @@ struct PostItem {
 
           SummaryItem({
             icon: $r('app.media.accuracy'),
-            name: 'Accuracy',
+            name: $r('app.string.Accuracy'),
             fontColor: Color.Black,
           }) {
             Text(this.post.answeredCount === 0 ? '0%' : (this.post.correctCount / this.post.answeredCount * 100).toFixed() + '%')
@@ -201,7 +201,7 @@ struct PostItem {
 
           SummaryItem({
             icon: $r('app.media.number'),
-            name: 'Number',
+            name: $r('app.string.Number'),
             fontColor: Color.Black,
           }) {
             Text(`${this.post.answeredCount}`)

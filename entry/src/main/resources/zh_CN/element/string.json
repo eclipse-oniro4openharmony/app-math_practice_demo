@@ -11,6 +11,126 @@
     {
       "name": "EntryAbility_label",
       "value": "label"
+    },
+    {
+      "name": "Accuracy",
+      "value": "准确度"
+    },
+    {
+      "name": "Progress",
+      "value": "进度"
+    },
+    {
+      "name": "Number",
+      "value": "数量"
+    },
+    {
+      "name": "Time",
+      "value": "用时"
+    },
+    {
+      "name": "Click_start",
+      "value": "请先点击开始来答题"
+    },
+    {
+      "name": "Start",
+      "value": "开始"
+    },
+    {
+      "name": "Pause",
+      "value": "暂停"
+    },
+    {
+      "name": "End",
+      "value": "结束"
+    },
+    {
+      "name": "Practice",
+      "value": "练习"
+    },
+    {
+      "name": "Moments",
+      "value": "社区"
+    },
+    {
+      "name": "My",
+      "value": "我的"
+    },
+    {
+      "name": "Punch_record",
+      "value": "打卡记录"
+    },
+    {
+      "name": "Enter_problem_number",
+      "value": "输入答题数量"
+    },
+    {
+      "name": "Cancel",
+      "value": "取消"
+    },
+    {
+      "name": "Confirm",
+      "value": "确认"
+    },
+    {
+      "name": "Login_punch",
+      "value": "登录打卡"
+    },
+    {
+      "name": "Finish",
+      "value": "结束"
+    },
+    {
+      "name": "Punch_community",
+      "value": "打卡社区"
+    },
+    {
+      "name": "Loading",
+      "value": "加载中..."
+    },
+    {
+      "name": "Login_check_data",
+      "value": "未登录无法查看数据"
+    },
+    {
+      "name": "Go_login",
+      "value": "去打卡"
+    },
+    {
+      "name": "Welcome_login",
+      "value": "欢迎登陆"
+    },
+    {
+      "name": "Phone_number",
+      "value": "手机号"
+    },
+    {
+      "name": "Code",
+      "value": "代码"
+    },
+    {
+      "name": "Get_code",
+      "value": "获取代码"
+    },
+    {
+      "name": "Login",
+      "value": "登录"
+    },
+    {
+      "name": "Practice_math",
+      "value": "数学通"
+    },
+    {
+      "name": "Developer",
+      "value": "开发者：Chen"
+    },
+    {
+      "name": "Check_updates",
+      "value": "检查更新"
+    },
+    {
+      "name": "About",
+      "value": "关于"
     }
   ]
 }
