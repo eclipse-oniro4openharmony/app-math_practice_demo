@@ -6,7 +6,7 @@ import { convertMillisecondsToTime } from '../utils/DateUtil';
 @Entry
 @Component
 export struct PunchPage {
-  @State postInfoList: PostInfo[] = postInfoData
+  @State postInfoList: PostInfo[] = AppStorage.get("records") ?? []
   @State isLoading: boolean = false
   scroller: Scroller = new Scroller()
 
@@ -78,14 +78,18 @@ export struct PunchPage {
   @Builder
   listBuilder() {
     Stack() {
-      List({ scroller: this.scroller }) {
-        ForEach(this.postInfoList, (post: PostInfo) => {
-          ListItem() {
-            PostItem({ post })
-          }
-        })
+      Column() {
+        List({ scroller: this.scroller }) {
+          ForEach(this.postInfoList, (post: PostInfo) => {
+            ListItem() {
+              PostItem({ post })
+            }
+          })
+        }
+        .zIndex(0)
       }
-      .zIndex(0)
+      .height("100%")
+      .justifyContent(FlexAlign.Start)
 
       Column({ space: 20 }) {
         Button({ type: ButtonType.Circle }) {

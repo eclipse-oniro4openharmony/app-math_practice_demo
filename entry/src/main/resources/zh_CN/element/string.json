@@ -106,11 +106,11 @@
     },
     {
       "name": "Code",
-      "value": "代码"
+      "value": "验证码"
     },
     {
       "name": "Get_code",
-      "value": "获取代码"
+      "value": "获取验证码"
     },
     {
       "name": "Login",

@@ -165,9 +165,9 @@ export struct PracticePage {
                 })
                 return
               }
-              // to do: wrong or correct
+              // todo: wrong or correct
               this.selectedOption = option
-              // to do: update summary information
+              // todo: update summary information
               this.answeredCount++
               if (option === this.questions[this.currentIndex].answer) {
                 this.correctCount++
@@ -279,6 +279,7 @@ struct ProblemNumberDialog {
 
 // 创建全局UI存储
 AppStorage.setOrCreate<PostInfo[]>("records", []);
+AppStorage.setOrCreate<number>("record_id", 0);
 
 @CustomDialog
 struct ResultDialog {
@@ -288,7 +289,8 @@ struct ResultDialog {
   resetPractice!: () => void;
   startPractice!: () => void;
   defaultId: number = 0;
-  @StorageLink("records") records:PostInfo[] = [];
+  @StorageLink("records") records: PostInfo[] = [];
+  @StorageLink("record_id") record_id: number = 0;
   controller: CustomDialogController = new CustomDialogController({
     builder: ResultDialog()
   })
@@ -353,14 +355,16 @@ struct ResultDialog {
             this.controller.close()
             this.resetPractice()
             let record = generatePunchRecord(
-              this.defaultId++,
+              this.record_id++,
               this.correctCount,
               this.answeredCount,
               this.timeUsed,
             )
             this.records.push(record)
-            AppStorage.setOrCreate("records", JSON.stringify(this.records));
+            AppStorage.setOrCreate("records", this.records);
+            AppStorage.setOrCreate("record_id", this.record_id);
             // console.info(`${ss.timeUsed}`)
+            console.info(`${this.record_id}`)
             // router.pushUrl({ url: "pages/LoginPage" })
           })
           .controlButtonStyle(
