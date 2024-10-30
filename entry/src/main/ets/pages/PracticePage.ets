@@ -348,7 +348,7 @@ struct ResultDialog {
           .height(40)
 
           Button() {
-            Text($r('app.string.Login_punch'))
+            Text($r('app.string.Punch'))
               .fontSize(10)
           }
           .onClick(() => {
@@ -364,8 +364,14 @@ struct ResultDialog {
             AppStorage.setOrCreate("records", this.records);
             AppStorage.setOrCreate("record_id", this.record_id);
             // console.info(`${ss.timeUsed}`)
-            console.info(`${this.record_id}`)
+            // console.info(`${this.record_id}`)
             // router.pushUrl({ url: "pages/LoginPage" })
+
+            // pop up window show punch successful information
+            promptAction.showToast({
+              message: $r('app.string.Punch_success'),
+              bottom: 30
+            })
           })
           .controlButtonStyle(
             Color.Black,

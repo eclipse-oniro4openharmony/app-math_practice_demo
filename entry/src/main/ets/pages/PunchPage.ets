@@ -1,4 +1,4 @@
-import { PostInfo, postInfoData } from '../model/PostInfo';
+import { PostInfo } from '../model/PostInfo';
 import router from '@ohos.router';
 import { SummaryItem } from './PracticePage'
 import { convertMillisecondsToTime } from '../utils/DateUtil';
@@ -122,7 +122,7 @@ export struct PunchPage {
           // todo: refresh
           if (this.isLoading === true) {
             this.postInfoList = [];
-            this.postInfoList = postInfoData;
+            this.postInfoList = AppStorage.get("records") ?? []
           }
         })
       }

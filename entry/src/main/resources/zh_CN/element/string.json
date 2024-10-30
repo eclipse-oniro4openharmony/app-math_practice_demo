@@ -73,6 +73,10 @@
       "value": "确认"
     },
     {
+      "name": "Punch",
+      "value": "打卡"
+    },
+    {
       "name": "Login_punch",
       "value": "登录打卡"
     },
@@ -135,6 +139,10 @@
     {
       "name": "More_practice",
       "value": "再来一轮"
+    },
+    {
+      "name": "Punch_success",
+      "value": "打卡成功~ 继续坚持哦！"
     }
   ]
 }
