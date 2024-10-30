@@ -131,6 +131,10 @@
     {
       "name": "About",
       "value": "关于"
+    },
+    {
+      "name": "More_practice",
+      "value": "再来一轮"
     }
   ]
 }

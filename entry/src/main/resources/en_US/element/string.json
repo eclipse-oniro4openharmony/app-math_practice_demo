@@ -131,6 +131,10 @@
     {
       "name": "About",
       "value": "About"
+    },
+    {
+      "name": "More_practice",
+      "value": "More Practice"
     }
   ]
 }

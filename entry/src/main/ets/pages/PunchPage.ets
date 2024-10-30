@@ -6,7 +6,7 @@ import { convertMillisecondsToTime } from '../utils/DateUtil';
 @Entry
 @Component
 export struct PunchPage {
-  @State postInfoList: PostInfo[] = postInfoData;
+  @State postInfoList: PostInfo[] = postInfoData
   @State isLoading: boolean = false
   scroller: Scroller = new Scroller()
 
