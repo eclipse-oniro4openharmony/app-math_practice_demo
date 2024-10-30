@@ -13,13 +13,13 @@ struct LoginPage {
         })
       Blank()
       Column() {
-        Text('Welcome Login')
+        Text($r('app.string.Welcome_login'))
           .titleStyle()
 
         Row() {
           Image($r('app.media.phone'))
             .iconStyle()
-          TextInput({ placeholder: 'Phone number' })
+          TextInput({ placeholder: $r('app.string.Phone_number') })
             .inputStyle()
         }
         .margin({ top: 30 })
@@ -30,10 +30,10 @@ struct LoginPage {
         Row() {
           Image($r('app.media.security'))
             .iconStyle()
-          TextInput({ placeholder: 'Code' })
+          TextInput({ placeholder: $r('app.string.Code') })
             .inputStyle()
 
-          Button('Get Code')
+          Button($r('app.string.Get_code'))
             .buttonlStyle(
               Color.Black,
               Color.White,
@@ -48,7 +48,7 @@ struct LoginPage {
           .margin({ right: 120 })
           .strokeWidth(1)
 
-        Button('Login')
+        Button($r('app.string.Login'))
           .buttonlStyle(
             Color.Black,
             Color.White
@@ -69,11 +69,11 @@ struct LoginPage {
         Row({space: 10}){
           Image($r('app.media.math_icon'))
             .iconStyle()
-          Text('Practice Math')
+          Text($r('app.string.Practice_math'))
             .fontWeight(700)
         }
         .margin({top: 150})
-        Text('Development by Chen')
+        Text('app.string.Developer')
           .margin({top: 10})
           .fontColor('#611a5694')
       }

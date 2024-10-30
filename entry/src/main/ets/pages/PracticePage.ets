@@ -41,6 +41,17 @@ export struct PracticePage {
     customStyle: true,
     autoCancel: false,
   })
+  problemNumDialogController: CustomDialogController = new CustomDialogController({
+    builder: ProblemNumberDialog({
+      problemNumber: this.totalCount,
+      confirm: (value) => {
+        this.totalCount = value
+        this.questions = generateRandomQuestions(this.totalCount)
+      }
+    }),
+    customStyle: true,
+    autoCancel: false,
+  })
 
   startPractice() {
     this.practiceStatus = PracticeStatus.Running
@@ -64,7 +75,7 @@ export struct PracticePage {
       Column() {
         SummaryItem({
           icon: $r('app.media.accuracy'),
-          name: 'Accuracy',
+          name: $r('app.string.Accuracy'),
           fontColor: Color.Black,
         }) {
           Text(this.answeredCount === 0 ?
@@ -75,7 +86,7 @@ export struct PracticePage {
 
         SummaryItem({
           icon: $r('app.media.speed'),
-          name: 'Progress',
+          name: $r('app.string.Progress'),
           fontColor: Color.Black,
         }) {
           Progress({
@@ -87,7 +98,7 @@ export struct PracticePage {
 
         SummaryItem({
           icon: $r('app.media.number'),
-          name: 'Number',
+          name: $r('app.string.Number'),
           fontColor: Color.Black,
         }) {
           Button(this.totalCount.toString())
@@ -97,20 +108,21 @@ export struct PracticePage {
             .fontColor(Color.White)
             .enabled(this.practiceStatus === PracticeStatus.Stopped)
             .onClick(() => {
-              TextPickerDialog.show({
-                range: ['1', '2', '3'],
-                value: this.totalCount.toString(),
-                onAccept: (result) => {
-                  this.totalCount = parseInt(result.value.toString())
-                  this.questions = generateRandomQuestions(this.totalCount)
-                }
-              })
+              // TextPickerDialog.show({
+              //   range: ['5', '10', '15', '20', '25', '30'],
+              //   value: this.totalCount.toString(),
+              //   onAccept: (result) => {
+              //     this.totalCount = parseInt(result.value.toString())
+              //     this.questions = generateRandomQuestions(this.totalCount)
+              //   }
+              // })
+              this.problemNumDialogController.open()
             })
         }
 
         SummaryItem({
           icon: $r('app.media.timer'),
-          name: 'Time',
+          name: $r('app.string.Time'),
           fontColor: Color.Black,
         }) {
           Row() {
@@ -146,8 +158,8 @@ export struct PracticePage {
             .onClick(() => {
               if (this.practiceStatus !== PracticeStatus.Running) {
                 promptAction.showToast({
-                  message: 'Please click start to practice',
-                  bottom: 10
+                  message:$r('app.string.Click_start'),
+                  bottom: 30
                 })
                 return
               }
@@ -182,7 +194,7 @@ export struct PracticePage {
 
       //Control buttons
       Row({ space: 50 }) {
-        Button('End')
+        Button($r('app.string.End'))
           .controlButtonStyle(
             Color.Transparent,
             this.practiceStatus === PracticeStatus.Stopped ? Color.Gray : Color.Black,
@@ -192,7 +204,7 @@ export struct PracticePage {
           .onClick(() => {
             this.stopPractice()
           })
-        Button(this.practiceStatus === PracticeStatus.Running ? 'Pause' : 'Start')
+        Button(this.practiceStatus === PracticeStatus.Running ? $r('app.string.Pause') : $r('app.string.Start'))
           .controlButtonStyle(
             this.practiceStatus === PracticeStatus.Running ? Color.Gray : Color.Black,
             Color.White,
@@ -214,6 +226,52 @@ export struct PracticePage {
       }
     }
     .practiceBgStyle()
+  }
+}
+
+@CustomDialog
+struct ProblemNumberDialog {
+  cancel?: () => void
+  confirm?: (num: number) => void
+  controller: CustomDialogController
+  problemNumber: number = 0
+
+  build() {
+    Column() {
+
+      TextInput({ placeholder: $r('app.string.Enter_problem_number') })
+        .fontSize(15)
+        .margin({ top: 10, bottom: 10 })
+        .type(InputType.Number)
+        .borderRadius(10)
+        .onChange((value) => {
+          this.problemNumber = parseInt(value)
+        })
+        .width(230)
+        .height(40)
+
+      Flex({ justifyContent: FlexAlign.SpaceAround }) {
+        Button($r('app.string.Cancel'))
+          .onClick(() => {
+            this.controller.close()
+            if (this.cancel) {
+              this.cancel()
+            }
+          }).backgroundColor(0xffffff).fontColor(Color.Black)
+
+        Button($r('app.string.Confirm'))
+          .onClick(() => {
+            this.controller.close()
+            if (this.confirm) {
+              this.confirm(this.problemNumber)
+            }
+          }).backgroundColor(0xffffff).fontColor(Color.Red)
+      }
+      .margin({ bottom: 10 })
+      .width(260)
+    }
+    .backgroundColor(Color.White)
+    .borderRadius(20)
   }
 }
 
@@ -281,7 +339,7 @@ struct ResultDialog {
           .height(40)
 
           Button() {
-            Text('Login Punch')
+            Text($r('app.string.Login_punch'))
               .fontSize(10)
           }
           .onClick(() => {
@@ -298,7 +356,7 @@ struct ResultDialog {
           .height(40)
 
           Button() {
-            Text('Finish')
+            Text($r('app.string.Finish'))
               .fontSize(10)
           }
           .onClick(() => {
@@ -334,7 +392,7 @@ struct ResultDialog {
 @Component
 export struct SummaryItem {
   icon!: Resource;
-  name!: string;
+  name!: string|Resource;
   fontColor!: Color;
   @BuilderParam summaryComp: () => void;
 
