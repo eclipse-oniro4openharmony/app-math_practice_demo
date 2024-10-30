@@ -97,3 +97,37 @@ export const postInfoData: PostInfo[] = [
     isLike: false
   },
 ]
+
+function getTime(): string {
+  let date: Date = new Date();
+  return date.toLocaleString()
+}
+
+export function generatePunchRecord(
+  id: number,
+  correctCount: number,
+  answeredCount: number,
+  timeUsed: number
+): PostInfo {
+
+  return {
+    id: id,
+    postText: 'This is the sample user comment for this exercise',
+    correctCount: correctCount,
+    answeredCount: answeredCount,
+    timeUsed: timeUsed,
+    createdTime: getTime(),
+    likeCount: 1,
+    avatarUrl: $r('app.media.accuracy'),
+    isLike: false,
+    nickname: 'Alfred',
+  }
+}
+
+// Generate given number of problems
+export function generatePunchRecords(): PostInfo[] {
+  const records: PostInfo[] = [];
+
+  return records
+}
+

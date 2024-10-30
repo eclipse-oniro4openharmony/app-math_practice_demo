@@ -5,6 +5,8 @@ import promptAction from '@ohos.promptAction'
 import { OptionStatus } from '../enums/OptionStatus'
 import { convertMillisecondsToTime } from '../utils/DateUtil'
 import router from '@ohos.router';
+import systemDateTime from '@ohos.systemDateTime';
+import { generatePunchRecord, PostInfo } from '../model/PostInfo'
 
 @Component
 export struct PracticePage {
@@ -158,7 +160,7 @@ export struct PracticePage {
             .onClick(() => {
               if (this.practiceStatus !== PracticeStatus.Running) {
                 promptAction.showToast({
-                  message:$r('app.string.Click_start'),
+                  message: $r('app.string.Click_start'),
                   bottom: 30
                 })
                 return
@@ -275,6 +277,9 @@ struct ProblemNumberDialog {
   }
 }
 
+// 创建全局UI存储
+AppStorage.setOrCreate<PostInfo[]>("records", []);
+
 @CustomDialog
 struct ResultDialog {
   answeredCount!: number;
@@ -282,6 +287,8 @@ struct ResultDialog {
   timeUsed!: number;
   resetPractice!: () => void;
   startPractice!: () => void;
+  defaultId: number = 0;
+  @StorageLink("records") records:PostInfo[] = [];
   controller: CustomDialogController = new CustomDialogController({
     builder: ResultDialog()
   })
@@ -321,7 +328,7 @@ struct ResultDialog {
           .strokeWidth(1)
         Row({ space: 15 }) {
           Button() {
-            Text('More Practice')
+            Text($r('app.string.More_practice'))
               .fontSize(10)
           }
           .onClick(() => {
@@ -345,7 +352,16 @@ struct ResultDialog {
           .onClick(() => {
             this.controller.close()
             this.resetPractice()
-            router.pushUrl({ url: "pages/LoginPage" })
+            let record = generatePunchRecord(
+              this.defaultId++,
+              this.correctCount,
+              this.answeredCount,
+              this.timeUsed,
+            )
+            this.records.push(record)
+            AppStorage.setOrCreate("records", JSON.stringify(this.records));
+            // console.info(`${ss.timeUsed}`)
+            // router.pushUrl({ url: "pages/LoginPage" })
           })
           .controlButtonStyle(
             Color.Black,
@@ -392,7 +408,7 @@ struct ResultDialog {
 @Component
 export struct SummaryItem {
   icon!: Resource;
-  name!: string|Resource;
+  name!: string | Resource;
   fontColor!: Color;
   @BuilderParam summaryComp: () => void;
 
