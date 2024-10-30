@@ -1,6 +1,6 @@
 import { AnswerStatus } from '../enums/AnswerStatus'
 import { PracticeStatus } from '../enums/PracticeStatus'
-import { getRandomQuestions, Question } from '../model/Questions'
+import { generateRandomQuestions, Question } from '../model/Questions'
 import promptAction from '@ohos.promptAction'
 import { OptionStatus } from '../enums/OptionStatus'
 import { convertMillisecondsToTime } from '../utils/DateUtil'
@@ -9,8 +9,9 @@ import router from '@ohos.router';
 @Component
 export struct PracticePage {
   @State practiceStatus: PracticeStatus = PracticeStatus.Stopped
-  @State totalCount: number = 3
-  @State questions: Question[] = getRandomQuestions(this.totalCount)
+  @State totalCount: number = 10
+  // @State questions: Question[] = getRandomQuestions(this.totalCount)
+  @State questions: Question[] = generateRandomQuestions(this.totalCount)
   @State currentIndex: number = 0
   @State answerStatus: AnswerStatus = AnswerStatus.Answering
   @State selectedOption: string = ''
@@ -25,7 +26,7 @@ export struct PracticePage {
       timeUsed: this.timeUsed,
       resetPractice: () => {
         //reset the problem sources
-        this.questions = getRandomQuestions(this.totalCount)
+        this.questions = generateRandomQuestions(this.totalCount)
         this.currentIndex = 0
         this.answeredCount = 0
         this.timeUsed = 0
@@ -38,7 +39,7 @@ export struct PracticePage {
       }
     }),
     customStyle: true,
-    autoCancel: false
+    autoCancel: false,
   })
 
   startPractice() {
@@ -101,7 +102,7 @@ export struct PracticePage {
                 value: this.totalCount.toString(),
                 onAccept: (result) => {
                   this.totalCount = parseInt(result.value.toString())
-                  this.questions = getRandomQuestions(this.totalCount)
+                  this.questions = generateRandomQuestions(this.totalCount)
                 }
               })
             })
@@ -229,14 +230,6 @@ struct ResultDialog {
 
   build() {
     Column() {
-      Image($r("app.media.ic_close"))
-        .width(25)
-        .height(25)
-        .alignSelf(ItemAlign.End)
-        .onClick(() => {
-          this.controller.close()
-          this.resetPractice()
-        })
       Column() {
         Image($r('app.media.finish'))
           .width('100%')
@@ -269,33 +262,57 @@ struct ResultDialog {
           .color(Color.Black)
           .strokeWidth(1)
         Row({ space: 15 }) {
-          Button('More Practice')
-            .onClick(() => {
-              this.controller.close()
-              this.resetPractice()
-              //start new practice
-              this.startPractice()
-            })
-            .controlButtonStyle(
-              Color.Transparent,
-              Color.Black,
-              Color.Black,
-            )
-            .width('50%')
-            .fontSize(12)
-          Button('Login Punch')
-            .onClick(() => {
-              this.controller.close()
-              this.resetPractice()
-              router.pushUrl({ url: "pages/LoginPage" })
-            })
-            .controlButtonStyle(
-              Color.Black,
-              Color.White,
-              Color.Black,
-            )
-            .width('50%')
-            .fontSize(12)
+          Button() {
+            Text('More Practice')
+              .fontSize(10)
+          }
+          .onClick(() => {
+            this.controller.close()
+            this.resetPractice()
+            //start new practice
+            this.startPractice()
+          })
+          .controlButtonStyle(
+            Color.Transparent,
+            Color.Black,
+            Color.Black,
+          )
+          .width('30%')
+          .height(40)
+
+          Button() {
+            Text('Login Punch')
+              .fontSize(10)
+          }
+          .onClick(() => {
+            this.controller.close()
+            this.resetPractice()
+            router.pushUrl({ url: "pages/LoginPage" })
+          })
+          .controlButtonStyle(
+            Color.Black,
+            Color.White,
+            Color.Black,
+          )
+          .width('30%')
+          .height(40)
+
+          Button() {
+            Text('Finish')
+              .fontSize(10)
+          }
+          .onClick(() => {
+            this.controller.close()
+            this.resetPractice()
+          })
+          .controlButtonStyle(
+            '#f80b87ae',
+            Color.White,
+            Color.White,
+          )
+          .width('30%')
+          .height(40)
+
         }
         .justifyContent(FlexAlign.Center)
         .margin(20)
@@ -304,6 +321,9 @@ struct ResultDialog {
       .width('100%')
       .padding(10)
       .borderRadius(10)
+      .margin({
+        bottom: 85
+      })
 
     }
     .backgroundColor(Color.Transparent)
