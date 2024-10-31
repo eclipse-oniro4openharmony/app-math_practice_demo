@@ -107,17 +107,18 @@ export function generatePunchRecord(
   id: number,
   correctCount: number,
   answeredCount: number,
-  timeUsed: number
+  timeUsed: number,
+  postText?: string,
 ): PostInfo {
 
   return {
     id: id,
-    postText: 'This is the sample user comment for this exercise',
+    postText: postText,
     correctCount: correctCount,
     answeredCount: answeredCount,
     timeUsed: timeUsed,
     createdTime: getTime(),
-    likeCount: 1,
+    likeCount: 0,
     avatarUrl: $r('app.media.accuracy'),
     isLike: false,
     nickname: 'Alfred',

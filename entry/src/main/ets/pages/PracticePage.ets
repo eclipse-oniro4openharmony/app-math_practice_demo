@@ -291,6 +291,7 @@ struct ResultDialog {
   resetPractice!: () => void;
   startPractice!: () => void;
   defaultId: number = 0;
+  comment: string = ''
   @StorageLink("records") records: PostInfo[] = [];
   @StorageLink("record_id") record_id: number = 0;
   controller: CustomDialogController = new CustomDialogController({
@@ -331,6 +332,16 @@ struct ResultDialog {
         Divider()
           .color(Color.Black)
           .strokeWidth(1)
+
+        TextInput({ placeholder: "Leave some comments..." })
+          .onChange((value: string) => {
+            this.comment = value
+          })
+          .margin({
+            top:10
+          })
+
+
         Row({ space: 15 }) {
           Button() {
             Text($r('app.string.More_practice'))
@@ -358,10 +369,12 @@ struct ResultDialog {
             this.controller.close()
             this.resetPractice()
             let record = generatePunchRecord(
+              // todo: add rest of params when login functions implemented
               this.record_id++,
               this.correctCount,
               this.answeredCount,
               this.timeUsed,
+              this.comment,
             )
             this.records.push(record)
             AppStorage.setOrCreate("records", this.records);
@@ -408,6 +421,7 @@ struct ResultDialog {
       .width('100%')
       .padding(10)
       .borderRadius(10)
+
       // .margin({
       //   bottom: 85
       // })
