@@ -1,6 +1,19 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "material": {
+          "certpath": "C:/Users/c84381641/.ohos/config/openharmony/default_app-math_practice_demo_KJxCTV_vgKSVM5zKn1js4igA_wjC8MqPKn3Zi0mYL6s=.cer",
+          "storePassword": "0000001BCB8F1871E5D12A03DA2832BDD2274B76E53276F89DB325947E1C7FB421AAAED9A192F570CDF3C9",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B019EC62897E71836C2174C688B22CD4DF7B050A7B319551BCFD447A5F54CB51990F39A5730B534",
+          "profile": "C:/Users/c84381641/.ohos/config/openharmony/default_app-math_practice_demo_KJxCTV_vgKSVM5zKn1js4igA_wjC8MqPKn3Zi0mYL6s=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:/Users/c84381641/.ohos/config/openharmony/default_app-math_practice_demo_KJxCTV_vgKSVM5zKn1js4igA_wjC8MqPKn3Zi0mYL6s=.p12"
+        }
+      }
+    ],
     "products": [
       {
         "name": "default",
@@ -10,6 +23,19 @@
         "runtimeOS": "OpenHarmony",
       }
     ],
+    //    "products": [
+    //      {
+    //        "name": "default",
+    //        "signingConfig": "default",
+    //        "compatibleSdkVersion": "4.1.0(11)",
+    //        "runtimeOS": "HarmonyOS",
+    //        "buildOption": {
+    //          "strictMode": {
+    //            "caseSensitiveCheck": true,
+    //          }
+    //        }
+    //      }
+    //    ],
     "buildModeSet": [
       {
         "name": "debug",

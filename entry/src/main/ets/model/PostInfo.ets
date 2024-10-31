@@ -108,7 +108,7 @@ export function generatePunchRecord(
   correctCount: number,
   answeredCount: number,
   timeUsed: number,
-  postText?: string,
+  postText: string,
 ): PostInfo {
 
   return {
