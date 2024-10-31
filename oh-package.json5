@@ -1,9 +1,10 @@
 {
-  "name": "oniroenglishpunching",
+  "modelVersion": "5.0.1",
+  "name": "oniromathpunching",
   "version": "1.0.0",
-  "description": "Please describe the basic information.",
+  "description": "An intelligent learning assistant designed to boost your math skills efficiently",
   "main": "",
-  "author": "",
+  "author": "@Chen",
   "license": "",
   "dependencies": {
     "@ohos/axios": "^2.2.4"
