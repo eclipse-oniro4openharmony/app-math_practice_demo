@@ -1,2 +1,2 @@
-# app-math_practice_demo
-An application for math problems practice
+# Math Practice Demo
+An application used to help user practice some math problems.

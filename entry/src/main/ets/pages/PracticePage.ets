@@ -1,6 +1,26 @@
+import { PracticeStatus } from '../enums/PracticeStatus'
+
 @Entry
 @Component
 struct PracticePage {
+  @State practiceStatus: PracticeStatus = PracticeStatus.Stopped
+
+  startPractice(){
+    this.practiceStatus = PracticeStatus.Running
+    //start timer
+  }
+
+  pausePractice(){
+    this.practiceStatus = PracticeStatus.Paused
+    //stop timer
+  }
+
+  stopPractice(){
+    this.practiceStatus = PracticeStatus.Stopped
+    //pause timer
+    //pop window
+  }
+
   build() {
     Column() {
       //Statistic Summary
@@ -32,21 +52,33 @@ struct PracticePage {
       }
 
       //Control buttons
-      Row({space:50}) {
+      Row({ space: 50 }) {
         Button('End')
           .controlButtonStyle(
             Color.Transparent,
-            Color.Black,
-            Color.Black
+            this.practiceStatus === PracticeStatus.Stopped ? Color.Gray : Color.Black,
+            this.practiceStatus === PracticeStatus.Stopped ? Color.Gray : Color.Black,
           )
-        Button('Start')
+          .enabled(this.practiceStatus !== PracticeStatus.Stopped)
+          .onClick(()=>{
+            this.stopPractice()
+          })
+        Button(this.practiceStatus === PracticeStatus.Running ? 'Pause' : 'Start')
           .controlButtonStyle(
-            Color.Black,
+            this.practiceStatus === PracticeStatus.Running ? Color.Gray : Color.Black,
             Color.White,
-            Color.Black
+            this.practiceStatus === PracticeStatus.Running ? Color.Gray : Color.Black,
           )
+          .onClick(()=>{
+            //to do: start practice
+            if(this.practiceStatus === PracticeStatus.Stopped){
+              this.startPractice()
+            }
+            else{
+              this.pausePractice()
+            }
+          })
       }
-
     }
     .practiceBgStyle()
   }
