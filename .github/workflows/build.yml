@@ -80,3 +80,9 @@ jobs:
           hvigorw --version --accept-license
           hvigorw clean --no-parallel --no-daemon
           hvigorw assembleHap --mode module -p product=default --stacktrace --no-parallel --no-daemon
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: HAP packages
+          path: ./entry/build/default/outputs/default
