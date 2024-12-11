@@ -4,13 +4,13 @@
       {
         "name": "default",
         "material": {
-          "certpath": "C:/Users/c84381641/.ohos/config/openharmony/default_app-math_practice_demo_KJxCTV_vgKSVM5zKn1js4igA_wjC8MqPKn3Zi0mYL6s=.cer",
-          "storePassword": "0000001BCB8F1871E5D12A03DA2832BDD2274B76E53276F89DB325947E1C7FB421AAAED9A192F570CDF3C9",
+          "certpath": "./.secret/oniro-ci.cer",
+          "storePassword": "0000001BD5A16C997F0EF958596A946A060A50ED61DF4D945A74AB3C462CBCFBE5BA90427A3DEAC0D27D3E",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001B019EC62897E71836C2174C688B22CD4DF7B050A7B319551BCFD447A5F54CB51990F39A5730B534",
-          "profile": "C:/Users/c84381641/.ohos/config/openharmony/default_app-math_practice_demo_KJxCTV_vgKSVM5zKn1js4igA_wjC8MqPKn3Zi0mYL6s=.p7b",
+          "keyPassword": "0000001BACA49D623B16BE8A9C4C216A9ED64244F7255BC9AEF8C862264DDA900496AD36202857353771E8",
+          "profile": "./.secret/oniro-ci.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:/Users/c84381641/.ohos/config/openharmony/default_app-math_practice_demo_KJxCTV_vgKSVM5zKn1js4igA_wjC8MqPKn3Zi0mYL6s=.p12"
+          "storeFile": "./.secret/oniro-ci.p12"
         }
       }
     ],
